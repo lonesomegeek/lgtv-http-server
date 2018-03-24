@@ -4,13 +4,16 @@ var router = express.Router();
 var request = require('request');
 var CONFIG = require('../config')
 
-var changeInput = function(input) {
+var changeInput = function(input, res) {
   lgtv.connect(CONFIG.lgtvip, function(err, response){
     if (!err) {
       lgtv.set_input(input, function(err, response){
         if (!err) {
-          console.log('Input was changed to ' + input);
-        }
+          res.send('success')
+          return
+        } else {
+	  res.send('failure')
+	}
       });
     }
   });
@@ -18,8 +21,7 @@ var changeInput = function(input) {
 
 router.get('/:input', function (req, res) {
   var input = req.params.input;
-  changeInput(input);
-  res.send('Input was set to ' + input)
+  changeInput(input, res);
 });
 
 module.exports = router;

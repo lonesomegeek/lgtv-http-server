@@ -5,24 +5,23 @@ var request = require('request');
 var wol = require('node-wol');
 var CONFIG = require('../config')
 
-var openBrowser = function(res) {
-        console.log("Found TV at address running example.");
+var mediaPause = function(res) {
         lgtv.connect(CONFIG.lgtvip, function(err, response){
           if (!err) {
-            lgtv.open_browser_at("http://www.google.pl", function(err, response){
+            lgtv.input_media_pause(function(err, response){
               if (!err) {
-	          res.send('success')
-	          return
-	        } else {
-		  res.send('failure')
-		}
+	        res.send('failue')
+                return
+              } else {
+		res.send('success')
+	      }
             });
           }
         });
 };
 
 router.get('/', function (req, res) {
-  openBrowser(res)
+  mediaPause(res)
 });
 
 module.exports = router;

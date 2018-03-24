@@ -5,20 +5,20 @@ var request = require('request');
 var wol = require('node-wol');
 var CONFIG = require('../config')
 
-var turnOn = function() {
-  wol.wake(CONFIG.lgtvmac, {
-    address: CONFIG.lgtvip,
-    port: 3000
-  }, function(error) {
-    if(error) {
-      return;
-    }
+var turnOn = function(res) {
+  wol.wake(CONFIG.lgtvmac, function(error) {
+    if (!error) {
+	          res.send('success')
+	          return
+	        } else {
+		  res.send('failure')
+		}
   });
-  var magicPacket = wol.createMagicPacket(CONFIG.lgtvmac);
+
 };
 
 router.get('/', function (req, res) {
-  turnOn()
+  turnOn(res)
 });
 
 module.exports = router;
