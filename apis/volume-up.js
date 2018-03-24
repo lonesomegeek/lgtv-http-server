@@ -5,11 +5,12 @@ var request = require('request');
 var wol = require('node-wol');
 var CONFIG = require('../config')
 
-var stop = function(res) {
+var volumeUp = function(res) {
+        console.log("Found TV at address running example.");
         lgtv.connect(CONFIG.lgtvip, function(err, response){
           if (!err) {
-            lgtv.input_stop(function(err, response){
-              if (!err) {
+            lgtv.input_volumeup(function(err, response){
+               if (!err) {
 	          res.send('success: ' + JSON.stringify(response))
 	          return
 	        } else {
@@ -21,7 +22,7 @@ var stop = function(res) {
 };
 
 router.get('/', function (req, res) {
-  stop(res)
+  volumeUp(res)
 });
 
 module.exports = router;

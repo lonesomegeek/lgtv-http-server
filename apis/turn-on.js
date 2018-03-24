@@ -7,12 +7,12 @@ var CONFIG = require('../config')
 
 var turnOn = function(res) {
   wol.wake(CONFIG.lgtvmac, function(error) {
-    if (!error) {
-	          res.send('success')
-	          return
-	        } else {
-		  res.send('failure')
-		}
+    	if (!error) {
+	  res.send('success: ' + JSON.stringify(response))
+	  return
+	} else {
+	  res.send('failure: ' + JSON.stringify(response))
+	}
   });
 
 };

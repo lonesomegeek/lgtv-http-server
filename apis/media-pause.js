@@ -10,10 +10,10 @@ var mediaPause = function(res) {
           if (!err) {
             lgtv.input_media_pause(function(err, response){
               if (!err) {
-	        res.send('failue')
+	        res.send('failue: ' + JSON.stringify(response))
                 return
               } else {
-		res.send('success')
+		res.send('success: ' + JSON.stringify(response))
 	      }
             });
           }

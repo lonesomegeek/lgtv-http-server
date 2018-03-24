@@ -9,10 +9,10 @@ var inputTV = function(res) {
     if (!err) {
       lgtv.start_app("com.webos.app.livetv", function(err, response){
         if (!err) {
-          res.send('success')
+          res.send('success: ' + JSON.stringify(response))
           return
         } else {
-	  res.send('failure')
+	  res.send('failure: ' + JSON.stringify(response))
 	}
       });
     }

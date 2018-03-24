@@ -1,0 +1,12 @@
+[Unit]
+Description=node.js server to manage LG TV
+
+[Service]
+ExecStart=/usr/local/bin/node /home/pi/home_automation/lgtv-http-server/server.js
+Restart=always
+Environment=PATH=/usr/bin:/usr/local/bin:/usr/sbin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/home_automation/lgtv-http-server/
+
+[Install]
+WantedBy=multi-user.target

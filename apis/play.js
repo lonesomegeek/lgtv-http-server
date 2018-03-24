@@ -6,15 +6,14 @@ var wol = require('node-wol');
 var CONFIG = require('../config')
 
 var play = function(res) {
-        console.log("Found TV at address running example.");
         lgtv.connect(CONFIG.lgtvip, function(err, response){
           if (!err) {
             lgtv.input_play(function(err, response){
               if (!err) {
-	          res.send('success')
+	          res.send('success: ' + JSON.stringify(response))
 	          return
 	        } else {
-		  res.send('failure')
+		  res.send('failure: ' + JSON.stringify(response))
 		}
             });
           }

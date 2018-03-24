@@ -25,9 +25,11 @@ app.get('/', function(req, res, next) {
   res.type('html').sendFile(__dirname + '/index.html');
 });
 
+app.use('/apps', require('./apis/apps'));
 app.use('/description', require('./apis/description'));
 app.use('/tv', require('./apis/input-tv'));
 app.use('/input', require('./apis/change-input'));
+app.use('/app', require('./apis/change-app'));
 app.use('/volume', require('./apis/change-volume'));
 app.use('/alert', require('./apis/alert'));
 app.use('/off', require('./apis/turn-off'));
@@ -42,6 +44,10 @@ app.use('/mediaplay', require('./apis/media-play'));
 app.use('/mediapause', require('./apis/media-pause'));
 app.use('/channeldown', require('./apis/channel-down'));
 app.use('/channelup', require('./apis/channel-up'));
+app.use('/mute', require('./apis/mute'));
+app.use('/status', require('./apis/status'));
+app.use('/volumedown', require('./apis/volume-down'));
+app.use('/volumeup', require('./apis/volume-up'));
 
 app.listen(5555, function () {
   console.log('LGTV http server is up in http://localhost:5555')

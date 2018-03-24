@@ -7,15 +7,17 @@ var CONFIG = require('../config')
 router.get('/', function (req, res) {
   res.send(
 	'Usage: <br>' +
-	'/description <br>' +
 	'/tv <br>' +
-	'/tinput/HDMI_1 <br>' +
-	'/volume <br>' +
-	'/alert/textToShow <br>' +
+	'/input/{HDMI_1} <br>' +
+	'/app/{netflix} <br>' +
+	'/apps <br>' +
+	'/mute/{true} <br>' +
+	'/volume/{8} <br>' +
+	'/alert/{textToShow} <br>' +
 	'/off <br>' +
 	'/on <br>' +
 	'/youtube <br>' +
-	'/browser <br>' +
+	'/browser/{url} <br>' +
 	'/play <br>' +
 	'/pause <br>' +
 	'/stop <br>' +

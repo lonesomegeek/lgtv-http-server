@@ -11,10 +11,10 @@ var mediaStop = function(res) {
           if (!err) {
             lgtv.input_media_stop(function(err, response){
               if (!err) {
-	          res.send('success')
+	          res.send('success: ' + JSON.stringify(response))
 	          return
 	        } else {
-		  res.send('failure')
+		  res.send('failure: ' + JSON.stringify(response))
 		}
             });
           }

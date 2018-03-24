@@ -9,10 +9,10 @@ var changeInput = function(input, res) {
     if (!err) {
       lgtv.set_input(input, function(err, response){
         if (!err) {
-          res.send('success')
+          res.send('success: ' + JSON.stringify(response))
           return
         } else {
-	  res.send('failure')
+	  res.send('failure: ' + JSON.stringify(response))
 	}
       });
     }

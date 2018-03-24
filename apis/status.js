@@ -5,11 +5,11 @@ var request = require('request');
 var wol = require('node-wol');
 var CONFIG = require('../config')
 
-var stop = function(res) {
+var getStatus = function(res) {
         lgtv.connect(CONFIG.lgtvip, function(err, response){
           if (!err) {
-            lgtv.input_stop(function(err, response){
-              if (!err) {
+            lgtv.get_status(function(err, response){
+                if (!err) {
 	          res.send('success: ' + JSON.stringify(response))
 	          return
 	        } else {
@@ -21,7 +21,7 @@ var stop = function(res) {
 };
 
 router.get('/', function (req, res) {
-  stop(res)
+  getStatus(res)
 });
 
 module.exports = router;
