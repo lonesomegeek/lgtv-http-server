@@ -26,6 +26,7 @@ app.get('/', function(req, res, next) {
 });
 
 app.use('/apps', require('./apis/apps'));
+app.use('/togglemute', require('./apis/toggle-mute'));
 app.use('/description', require('./apis/description'));
 app.use('/tv', require('./apis/input-tv'));
 app.use('/input', require('./apis/change-input'));

@@ -1,162 +1,1 @@
-preferences {    
-	section("Internal Access"){
-    	input "ip_address", "text", title: "Ip Address", required: true
-        input "port", "text", title: "Port Number", required: true
-	}
-}
-
-metadata {
-	definition (name: "LG TV", namespace: "btrial", author: "Bartosz Sobieraj") {
-	capability "Switch"
-	command "tv"
-	command "decoderTv"
-	command "shield"
-    command "netflix"
-    command "hbo"
-    command "tvn"
-	command "volumeUp"
-    command "volumeDown"
-    command "mute"
-	command "channelUp"
-	command "channelDown"
-	}
-
-simulator {
-		// TODO: define status and reply messages here
-	}
-
-tiles {
-        standardTile("main_on", "device.switchON", inactiveLabel: false, decoration: "flat", canChangeIcon: true, canChangeBackground: true) {
-            state "off", label: 'Push for ON', action: "switch.on", backgroundColor: "#ffffff", channelUpState: "on"
-			state "on", label: 'Turning ON', backgroundColor: "#79b821"
-        }
-        standardTile("on", "device.switchON", inactiveLabel: false, decoration: "flat") {
-            state "off", label: '', action: "switch.on", backgroundColor: "#ffffff",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/push-for-ON.png", channelUpState: "on"
-			state "on", label: '', backgroundColor: "#79b821",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/turning-ON.png"
-        }
-        standardTile("off", "device.switchOFF", inactiveLabel: false, decoration: "flat") {
-            state "off", label: '', action: "off", backgroundColor: "#ffffff",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/push-for-OFF.png", channelUpState: "on"
-			state "on", label: '', backgroundColor: "#79b821",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/turning-OFF.png"
-        }
-        standardTile("mute", "device.switch", inactiveLabel: false, decoration: "flat") {
-			state "unmuted", label:"mute", action:"mute", icon:"st.custom.sonos.unmuted", backgroundColor:"#ffffff", channelUpState:"muted"
-			state "muted", label:"unmute", action:"unmute", icon:"st.custom.sonos.muted", backgroundColor:"#ffffff", channelUpState:"unmuted"
-        }
-        standardTile("tv", "device.switch", decoration: "flat"){
-        	state "tv", label: 'tv', action: "tv", icon:"https://raw.githubusercontent.com/btrial/icons/master/tv.png"
-        	}
-        standardTile("decoderTv", "device.switch", decoration: "flat"){
-        	state "decoderTv", label: 'decoderTv', action: "decoderTv", icon:"https://raw.githubusercontent.com/btrial/icons/master/modem.png"
-        	}
-        standardTile("shield", "device.switch", decoration: "flat"){
-        	state "shield", label: 'shield', action: "shield", icon:"https://raw.githubusercontent.com/btrial/icons/master/shield.png"
-        	}
-        standardTile("channelDown", "device.switch", decoration: "flat"){
-        	state "channelDown", label: 'channelDown', action: "channelDown", icon:"https://raw.githubusercontent.com/btrial/icons/master/channelDown.ico"
-        }
-        standardTile("channelUp", "device.switch", decoration: "flat"){
-        	state "channelUp", label: 'channelUp', action: "channelUp", icon:"https://raw.githubusercontent.com/btrial/icons/master/channelUp.ico"
-        }
-        standardTile("volumeUp", "device.switch", decoration: "flat"){
-        	state "volumeUp", label: 'volumeUp', action: "volumeUp", icon:"https://raw.githubusercontent.com/btrial/icons/master/volume-up.ico"
-        }
-        standardTile("volumeDown", "device.switch", decoration: "flat"){
-        	state "volumeDown", label: 'volumeDown', action: "volumeDown", icon:"https://raw.githubusercontent.com/btrial/icons/master/volume-down.ico"
-        }
-		standardTile("netflix", "device.switch", decoration: "flat"){
-        	state "netflix", label: 'netflix', action: "netflix", icon:"st.Electronics.https://raw.githubusercontent.com/btrial/icons/master/netflix.png"
-        	}
-        standardTile("hbo", "device.switch", decoration: "flat"){
-        	state "hbo", label: 'hbo', action: "hbo", icon:"st.Electronics.https://raw.githubusercontent.com/btrial/icons/master/hbogo.png"
-        	}
-		standardTile("tvn", "device.switch", decoration: "flat"){
-        	state "tvn", label: 'tvn', action: "tvn", icon:"https://raw.githubusercontent.com/btrial/icons/master/tvn.png"
-        	}
-	}
-	
-    main "main_on"
-    details(["on","off","tv","decoderTv","shield","hbo","tvn","netflix","channelDown","channelUp","mute","volumeUp","volumeDown"])
-}
-
-// parse events into attributes
-def parse(description) {
-    def msg = parseLanMessage(description)
-    def headersAsString = msg.header // => headers as a string
-    def headerMap = msg.headers      // => headers as a Map
-    def body = msg.body              // => request body as a string
-    def status = msg.status          // => http status code of the response
-    def json = msg.json              // => any JSON included in response body, as a data structure of lists and maps
-    def xml = msg.xml                // => any XML included in response body, as a document tree structure
-    def data = msg.data              // => either JSON or XML in response body (whichever is specified by content-type header in response)
-}
-
-    
-def updated() {	
-}
-    
-def mute(){
-	executeGet('/mute/true')
-}
-
-def unmute(){
-	executeGet('/mute/false')
-}
-
-def volumeUp() {
-	executeGet('/volumeup')
-}
-
-def volumeDown() {
-	executeGet('/volumedown')
-}
-
-def on() {
-	executeGet('/on')
-}
-
-def off() {
-	executeGet('/off')
-} 
-
-def tv() {
-	executeGet('/app/com.webos.app.livetv')
-}
-	
-def decoderTv() {
-	executeGet('/input/HDMI_3')
-}
-
-def shield() {
-	executeGet('/input/HDMI_4')
-}
-    
-def hbo() {   
-    executeGet('/app/hbo.go')
-}
-
-def netflix() {   
-    executeGet('/app/netflix')
-}
-    
-def channelUp() {
-	executeGet('/channeldown')
-}
-
-def channelDown() {
-	executeGet('/channeldown')
-}
-
-def executeGet(pathToExecute) {
-    
-	log.debug "Executing: " ip_address + ":" + port + pathToExecute;
-	
-    def result = new physicalgraph.device.HubAction(
-        method: "GET",
-        path: pathToExecute,
-        headers: [
-            HOST: ip_address + ":" + port,
-        ]
-    )
-    
-    sendHubCommand(result)
-}
+preferences {    	section("Internal Access"){    	input "ip_address", "text", title: "Ip Address", required: true        input "port", "text", title: "Port Number", required: true	}}metadata {	definition (name: "LG TV", namespace: "btrial", author: "Bartosz Sobieraj") {	capability "Switch"	command "tv"	command "decoderTv"	command "shield"    command "netflix"    command "hbo"    command "tvn"	command "volumeUp"    command "volumeDown"    command "mute"	command "unmute"	command "channelUp"	command "channelDown"	}simulator {		// TODO: define status and reply messages here	}tiles {        standardTile("main_on", "device.switchON", inactiveLabel: false, decoration: "flat", canChangeIcon: true, canChangeBackground: true) {            state "off", label: 'Push for ON', action: "switch.on", backgroundColor: "#ffffff", channelUpState: "on"			state "on", label: 'Turning ON', backgroundColor: "#79b821"        }        standardTile("on", "device.switchON", inactiveLabel: false, decoration: "flat") {            state "off", label: '', action: "switch.on", backgroundColor: "#ffffff",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/push-for-ON.png", channelUpState: "on"			state "on", label: '', backgroundColor: "#79b821",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/turning-ON.png"        }        standardTile("off", "device.switchOFF", inactiveLabel: false, decoration: "flat") {            state "off", label: '', action: "off", backgroundColor: "#ffffff",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/push-for-OFF.png", channelUpState: "on"			state "on", label: '', backgroundColor: "#79b821",icon: "https://raw.githubusercontent.com/btrial/broadlink-smartthings/master/icons/turning-OFF.png"        }        standardTile("mute", "device.switch", inactiveLabel: false, decoration: "flat") {			state "unmuted", label:"mute", action:"mute", icon:"st.custom.sonos.unmuted", backgroundColor:"#ffffff", nextState:"muted"			state "muted", label:"unmute", action:"unmute", icon:"st.custom.sonos.muted", backgroundColor:"#ffffff", nextState:"unmuted"        }        standardTile("tv", "device.switch", decoration: "flat"){        	state "tv", label: 'tv', action: "tv", icon:"https://raw.githubusercontent.com/btrial/icons/master/tv.png"        	}        standardTile("decoderTv", "device.switch", decoration: "flat"){        	state "decoderTv", label: 'decoderTv', action: "decoderTv", icon:"https://raw.githubusercontent.com/btrial/icons/master/modem.png"        	}        standardTile("shield", "device.switch", decoration: "flat"){        	state "shield", label: 'shield', action: "shield", icon:"https://raw.githubusercontent.com/btrial/icons/master/shield.png"        	}        standardTile("channelDown", "device.switch", decoration: "flat"){        	state "channelDown", label: 'channelDown', action: "channelDown", icon:"https://raw.githubusercontent.com/btrial/icons/master/channelDown.ico"        }        standardTile("channelUp", "device.switch", decoration: "flat"){        	state "channelUp", label: 'channelUp', action: "channelUp", icon:"https://raw.githubusercontent.com/btrial/icons/master/channelUp.ico"        }        standardTile("volumeUp", "device.switch", decoration: "flat"){        	state "volumeUp", label: 'volumeUp', action: "volumeUp", icon:"https://raw.githubusercontent.com/btrial/icons/master/volume-up.ico"        }        standardTile("volumeDown", "device.switch", decoration: "flat"){        	state "volumeDown", label: 'volumeDown', action: "volumeDown", icon:"https://raw.githubusercontent.com/btrial/icons/master/volume-down.ico"        }		standardTile("netflix", "device.switch", decoration: "flat"){        	state "netflix", label: 'netflix', action: "netflix", icon:"st.Electronics.https://raw.githubusercontent.com/btrial/icons/master/netflix.png"        	}        standardTile("hbo", "device.switch", decoration: "flat"){        	state "hbo", label: 'hbo', action: "hbo", icon:"st.Electronics.https://raw.githubusercontent.com/btrial/icons/master/hbogo.png"        	}		standardTile("tvn", "device.switch", decoration: "flat"){        	state "tvn", label: 'tvn', action: "tvn", icon:"https://raw.githubusercontent.com/btrial/icons/master/tvn.png"        	}	}	    main "main_on"    details(["on","off","tv","decoderTv","shield","hbo","tvn","netflix","channelDown","channelUp","mute","volumeUp","volumeDown"])}// parse events into attributesdef parse(description) {    def msg = parseLanMessage(description)    def headersAsString = msg.header // => headers as a string    def headerMap = msg.headers      // => headers as a Map    def body = msg.body              // => request body as a string    def status = msg.status          // => http status code of the response    def json = msg.json              // => any JSON included in response body, as a data structure of lists and maps    def xml = msg.xml                // => any XML included in response body, as a document tree structure    def data = msg.data              // => either JSON or XML in response body (whichever is specified by content-type header in response)}    def updated() {	}    def mute(){	executeGet('/mute/true')}def unmute(){	executeGet('/mute/false')}def volumeUp() {	executeGet('/volumeup')}def volumeDown() {	executeGet('/volumedown')}def on() {	executeGet('/on')}def off() {	executeGet('/off')} def tv() {	executeGet('/app/com.webos.app.livetv')}	def decoderTv() {	executeGet('/input/HDMI_3')}def shield() {	executeGet('/input/HDMI_4')}    def hbo() {       executeGet('/app/hbo.go')}def netflix() {       executeGet('/app/netflix')}def tvn() {    executeGet('/app/com.5332215.195336')}    def channelUp() {	executeGet('/channeldown')}def channelDown() {	executeGet('/channeldown')}def executeGet(pathToExecute) {    	log.debug "Executing: " + ip_address + ":" + port + pathToExecute;	    def result = new physicalgraph.device.HubAction(        method: "GET",        path: pathToExecute,        headers: [            HOST: ip_address + ":" + port,        ]    )        sendHubCommand(result)}

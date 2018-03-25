@@ -12,6 +12,7 @@ router.get('/', function (req, res) {
 	'/app/{netflix} <br>' +
 	'/apps <br>' +
 	'/mute/{true} <br>' +
+	'/togglemute <br>' +
 	'/volume/{8} <br>' +
 	'/alert/{textToShow} <br>' +
 	'/off <br>' +
